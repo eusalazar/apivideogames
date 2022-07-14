@@ -23,13 +23,6 @@ server.use((req, res, next) => {
 });
 
 server.use('/', routes);
-app.use(express.static(publicPath));
-const publicPath = path.join(__dirname, '..', 'build');
-
-server.get('*', (req, res) => {
-  res.sendFile(path.join(publicPath, 'index.html'));
-});
-
 
 // Error catching endware.
 server.use((err, req, res, next) => { // eslint-disable-line no-unused-vars
