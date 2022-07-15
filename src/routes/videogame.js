@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const axios = require('axios');
-const { Videogame, Genre } = require ('../db.js');
+const { Videogames, Genres } = require ('../db.js');
 const { VIDEOGAMES_API_KEY } = process.env;
 
 const router = Router();
@@ -20,7 +20,7 @@ const getApiId = async (id) => {
 //OBTEGO EL ID LA BASE DE DATOS
 
 const getBdId = async (id) => {
-    const infoId = await Videogame.findByPk(id, {include: Genre});//obtiene la clave princ de la tabla
+    const infoId = await Videogames.findByPk(id, {include: Genres});//obtiene la clave princ de la tabla
     return infoId
 };
 

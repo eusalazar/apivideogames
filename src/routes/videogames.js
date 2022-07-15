@@ -1,5 +1,5 @@
 const  axios  = require ('axios');
-const { Videogame, Genre, Platforms} = require ('../db.js');
+const { Videogames, Genres, Platforms} = require ('../db.js');
 const { VIDEOGAMES_API_KEY } = process.env;
 
 //ME TRAIGO TODOS LOS VIDEOJUEGOS DE LA API
@@ -23,10 +23,10 @@ const getAllVideoGames = async () => {
             rating:e.rating
    })
     const apiData = results.map(parseResult)
-    const dbData = await Videogame.findAll({
+    const dbData = await Videogames.findAll({
         include: [
             {
-                model: Genre,
+                model: Genres,
                 attributes: ["name"],
                 through: {
                     attributes: []
@@ -67,12 +67,12 @@ const getApi = async (name) => {
 //HAGO UNA REQUEST A LA BASE DE DATOS CON NAME INGRESADO COMO QUERY
 const getBd = async (name) => {
     try {
-    return await Videogame.findAll({
+    return await Videogames.findAll({
         where: {
             name:name
         },
         include: [ {
-            model: Genre,
+            model: Genres,
             attributes: ['name'],
             through: {
                 attributes: []

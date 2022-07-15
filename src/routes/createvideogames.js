@@ -1,5 +1,5 @@
 const  axios  = require ('axios');
-const { Videogame, Genre, Platforms} = require ('../db.js');
+const { Videogames, Genres, Platforms} = require ('../db.js');
 
 
 const handler = async (req, res) => {
@@ -20,7 +20,7 @@ const handler = async (req, res) => {
             console.log('No se acepta la url tan larga.', image)
             return res.status(403).send('No se acepta la url tan larga.')
         }
-        const newGames = await Videogame.create({
+        const newGames = await Videogames.create({
             name,
             description,
             image,
@@ -32,7 +32,7 @@ const handler = async (req, res) => {
 
         })
         
-        const bdGenres = await Genre.findAll({ //devolvera las cadenas de  cada coincidencia en la cadena buscada            
+        const bdGenres = await Genres.findAll({ //devolvera las cadenas de  cada coincidencia en la cadena buscada            
             where : {name: genres}
         })
         const platformDb = await Platforms.findAll({
