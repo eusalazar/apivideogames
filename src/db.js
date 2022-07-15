@@ -11,7 +11,21 @@ const { DATABASE_URL } = process.env;
 const sequelize = new Sequelize(DATABASE_URL, {
   logging: false, // set to console.log to see the raw SQL queries
   native: false, // lets Sequelize know we can use pg-native for ~30% more speed
+  ssl: {
+    require: true,
+    rejectUnauthorized: false
+  }
 });
+
+sequelize
+  .authenticate()
+  .then(() => {
+    console.log('Connection has been established successfully.');
+  })
+  .catch(err => {
+    console.error('Unable to connect to the database:', err);
+  });
+
 const basename = path.basename(__filename);
 
 const modelDefiners = [];
