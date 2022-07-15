@@ -2,19 +2,23 @@ require('dotenv').config();
 const { Sequelize } = require('sequelize');
 const fs = require('fs');
 const path = require('path');
-const Genres = require('./models/Genre');
 const axios = require('axios');
 const { VIDEOGAMES_API_KEY } = process.env;
 
-const { DATABASE_URL } = process.env;
+const {
+  DATABASE_URL
+} = process.env;
 
 const sequelize = new Sequelize(DATABASE_URL, {
   logging: false, // set to console.log to see the raw SQL queries
   native: false, // lets Sequelize know we can use pg-native for ~30% more speed
-  ssl: {
-    require: true,
-    rejectUnauthorized: false
+  dialectOptions: {
+    ssl: {
+      require: true,
+      rejectUnauthorized: false
+    }
   }
+  
 });
 
 sequelize
@@ -25,6 +29,7 @@ sequelize
   .catch(err => {
     console.error('Unable to connect to the database:', err);
   });
+
 
 const basename = path.basename(__filename);
 
@@ -46,22 +51,22 @@ sequelize.models = Object.fromEntries(capsEntries);
 
 // En sequelize.models están todos los modelos importados como propiedades
 // Para relacionarlos hacemos un destructuring
-const { Videogame, Genre, Platforms } = sequelize.models;
+const { Videogames, Genres, Platforms } = sequelize.models;
 
 // Aca vendrian las relaciones
 // Product.hasMany(Reviews);
 
-Videogame.belongsToMany(Genre, { through: "videogame_genre" });
-Genre.belongsToMany(Videogame, { through: "videogame_genre" });
+Videogames.belongsToMany(Genres, { through: "videogames_genres" });
+Genres.belongsToMany(Videogames, { through: "videogames_genres" });
 
-Videogame.belongsToMany(Platforms, { through: "videogameplatform" })
-Platforms.belongsToMany(Videogame, { through: "videogameplatform" })
+Videogames.belongsToMany(Platforms, { through: "videogameplatform" })
+Platforms.belongsToMany(Videogames, { through: "videogameplatform" })
 
 const initiData = async () => {
   const infoApi = await axios.get( `https://api.rawg.io/api/genres?key=${ VIDEOGAMES_API_KEY }`)
   const gamesGenres = await infoApi.data.results;
   gamesGenres.map(e => {
-      return Genre.findOrCreate({
+      return Genres.findOrCreate({
           where: {
               name: e.name,
           }
