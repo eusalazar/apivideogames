@@ -1,0 +1,40 @@
+version: '3.7'
+
+services:
+  db-videogames:
+    image: postgres:14.1-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=devpg
+      - POSTGRES_PASSWORD=password123
+      - POSTGRES_DB=videjouegos
+    ports:
+      - '5432:5432'
+    volumes:
+      - db:/var/lib/postgresql/data
+  react-portfolio:
+    environment:
+      VIRTUAL_HOST: api.videojuegos.euge.dev, www.api.videjouegos.euge.dev
+      LETSENCRYPT_HOST: api.videojuegos.euge.dev, www.api.videojuegos.euge.dev
+      LETSENCRYPT_EMAIL: eugeniasalazar745@gmail.com
+      VIRTUAL_PORT: 3600
+    build:
+      context: .
+      dockerfile: Dockerfile
+    expose:
+      - 3600
+    ports:
+      - 3600:3600
+    container_name: videogames-api
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+
+volumes:
+  db:
+    driver: local
+
+networks:
+  default:
+    external:
+      name: nginx-proxy
