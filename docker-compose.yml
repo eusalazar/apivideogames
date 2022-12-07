@@ -14,8 +14,8 @@ services:
       - db:/var/lib/postgresql/data
   react-portfolio:
     environment:
-      VIRTUAL_HOST: api.videojuegos.euge.dev, www.api.videjouegos.euge.dev
-      LETSENCRYPT_HOST: api.videojuegos.euge.dev, www.api.videojuegos.euge.dev
+      VIRTUAL_HOST: api-videojuegos.euge.dev, www.api-videjouegos.euge.dev
+      LETSENCRYPT_HOST: api-videojuegos.euge.dev, www.api-videojuegos.euge.dev
       LETSENCRYPT_EMAIL: eugeniasalazar745@gmail.com
       VIRTUAL_PORT: 3600
     build:
