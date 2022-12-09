@@ -14,8 +14,8 @@ services:
       - db:/var/lib/postgresql/data
   videogames-api:
     environment:
-      VIRTUAL_HOST: api-videjouegos.euge.dev
-      LETSENCRYPT_HOST: api-videojuegos.euge.dev
+      VIRTUAL_HOST: api.videogames.euge.dev, www.api.videogames.euge.dev
+      LETSENCRYPT_HOST: api.videogames.euge.dev, www.api.videogames.euge.dev
       LETSENCRYPT_EMAIL: eugeniasalazar745@gmail.com
       VIRTUAL_PORT: 3600
     build:
